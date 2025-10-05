@@ -1,0 +1,942 @@
+/* 基础样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+    overflow-x: hidden;
+    background: #000;
+}
+
+/* 音乐控制样式 */
+.music-controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.music-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.music-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.music-btn:active {
+    transform: scale(0.95);
+}
+
+.music-btn.muted {
+    background: rgba(255, 107, 107, 0.3);
+    border-color: rgba(255, 107, 107, 0.5);
+}
+
+.music-btn.playing {
+    background: rgba(76, 175, 80, 0.3);
+    border-color: rgba(76, 175, 80, 0.5);
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.music-icon, .volume-icon {
+    display: block;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover .music-icon,
+.music-btn:hover .volume-icon {
+    transform: rotate(10deg);
+}
+
+/* 场景基础样式 */
+.scene {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.8s ease-in-out;
+    z-index: 1;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 10;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.content {
+    text-align: center;
+    color: white;
+    max-width: 90%;
+    z-index: 2;
+}
+
+/* 开场封面样式 */
+.cover-scene .content {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 60px 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: fadeInUp 1s ease-out;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.start-button {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    animation: fadeInUp 1s ease-out 0.6s both;
+}
+
+.start-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+/* 第一幕样式 */
+.scene-title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.number-display {
+    font-size: 8rem;
+    font-weight: bold;
+    color: #ff6b6b;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    margin: 20px 0;
+    animation: numberPulse 0.1s ease-in-out;
+}
+
+.days-text {
+    font-size: 3rem;
+    margin-top: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.loading-hint {
+    margin-top: 30px;
+    font-size: 1.1rem;
+    opacity: 0.8;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.continue-hint {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 107, 107, 0.9);
+    padding: 15px 30px;
+    border-radius: 25px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    opacity: 0;
+    transition: opacity 0.8s ease-out;
+}
+
+/* 第一幕继续按钮特殊样式 */
+#continueHint1 {
+    position: absolute !important;
+    bottom: 50px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    opacity: 0;
+    transition: opacity 0.8s ease-out !important;
+}
+
+#continueHint1.show {
+    opacity: 1 !important;
+}
+
+.continue-hint p {
+    font-size: 1.2rem;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.continue-hint.show {
+    opacity: 1;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.continue-hint:hover {
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.continue-hint:hover p {
+    transform: scale(1.05);
+}
+
+/* 第二幕样式 */
+#scene2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+}
+
+.chat-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chat-bubble {
+    margin: 15px 0;
+    display: flex;
+    animation: chatSlideIn 0.5s ease-out;
+}
+
+.chat-bubble.left {
+    justify-content: flex-start;
+}
+
+.chat-bubble.right {
+    justify-content: flex-end;
+}
+
+.chat-bubble .message {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 12px 18px;
+    border-radius: 20px;
+    max-width: 70%;
+    position: relative;
+    animation: crack 2s ease-in-out infinite;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.chat-bubble.left .message {
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom-left-radius: 5px;
+}
+
+.chat-bubble.right .message {
+    background: rgba(255, 107, 107, 0.3);
+    border-bottom-right-radius: 5px;
+}
+
+.broken-heart {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 40px auto;
+    cursor: pointer;
+    animation: heartShake 2s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.heart-svg {
+    width: 100px;
+    height: 100px;
+    transition: all 2s ease-in-out;
+}
+
+.heart-path {
+    transition: all 2s ease-in-out;
+    animation: heartBreak 2s ease-in-out infinite;
+}
+
+.heart-path.repaired {
+    animation: heartRepair 1s ease-out forwards;
+    fill: #ff6b6b !important;
+    stroke: #ff6b6b !important;
+}
+
+.heart-path.healing {
+    fill: #ff6b6b;
+    stroke: #ff6b6b;
+    animation: heartHeal 2s ease-in-out forwards;
+}
+
+.heart-click-hint {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(150, 150, 150, 0.8);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: normal;
+    cursor: pointer;
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    white-space: nowrap;
+}
+
+.heart-click-hint:hover {
+    background: rgba(120, 120, 120, 0.9);
+    transform: translateX(-50%) translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.repair-text {
+    margin-top: 30px;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* 第三幕样式 */
+.medals-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.medal {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: medalFloat 3s ease-in-out infinite;
+    border: 2px solid #ddd;
+}
+
+.medal:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.medal:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.medal:hover {
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.medal.active {
+    border-color: #333;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* 针对不同勋章的高亮色（更贴近语义与图标） */
+.medal.active.bandaid { /* 创可贴：治愈、温暖 */
+    background: #ffb3b3; /* 柔和粉红 */
+}
+.medal.active.umbrella { /* 雨伞：风雨、守护 */
+    background: #9ecbff; /* 柔和天蓝 */
+}
+.medal.active.medicine { /* 药丸：照料、康复 */
+    background: #b9f6ca; /* 薄荷绿 */
+}
+
+.medal-icon {
+    font-size: 3rem;
+    transition: all 0.3s ease;
+}
+
+.medal.active .medal-icon { color: #222; }
+
+.medal-tooltip {
+    position: absolute;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.medal-tooltip.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 第三幕继续按钮特殊样式 */
+#continueHint3 {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    margin: 60px auto 0 auto !important;
+    width: fit-content !important;
+    z-index: 200;
+    background: rgba(255, 107, 107, 0.9);
+    padding: 10px 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    opacity: 0;
+    transform: translateY(20px) !important;
+    transition: all 1s ease-out;
+    text-align: center;
+}
+
+#continueHint3.show {
+    opacity: 1;
+    transform: translateY(0) !important;
+}
+
+#continueHint3 .continue-button {
+    font-size: 0.9rem;
+    padding: 8px 20px;
+    margin: 0;
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 第四幕样式 */
+#scene4 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.photo-gallery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gallery-nav {
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-nav:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.photo-container {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+}
+
+.current-photo {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: all 0.5s ease;
+    animation: photoFloat 3s ease-in-out infinite;
+}
+
+.current-photo img {
+    width: 100%;
+    max-width: 600px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: all 0.5s ease;
+}
+
+.photo-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.gallery-continue {
+    margin-top: 40px;
+    text-align: center;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* 第五幕样式 */
+.love-path {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: 200px;
+    margin: 40px auto;
+}
+
+.path-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #ff8e8e, #ff6b6b);
+    transform: translateY(-50%);
+    border-radius: 2px;
+    opacity: 0.3;
+}
+
+.path-line.active {
+    opacity: 1;
+    animation: pathGlow 2s ease-in-out;
+}
+
+.path-node {
+    position: absolute;
+    top: 50%;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.path-node:nth-child(2) {
+    left: 10%;
+}
+
+.path-node:nth-child(3) {
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.path-node:nth-child(4) {
+    right: 10%;
+}
+
+.path-node:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+.path-node.active {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    animation: nodeGlow 1s ease-out;
+}
+
+.node-label {
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.character {
+    position: absolute;
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transform: translateY(-50%);
+    transition: all 1s ease;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+}
+
+.character.me {
+    left: 5%;
+}
+
+.character.her {
+    right: 5%;
+    background: linear-gradient(45deg, #ff9a9e, #fecfef);
+}
+
+.path-story {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.final-message {
+    margin-top: 30px;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* 第六幕样式 */
+#scene6 .background-image {
+    background-image: url('第六幕.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.confession-text {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.confession-line {
+    font-size: 1.3rem;
+    line-height: 2;
+    margin: 15px 0;
+    opacity: 0;
+    animation: confessionFadeIn 1s ease-out forwards;
+}
+
+.confession-line:nth-child(1) { animation-delay: 0.5s; }
+.confession-line:nth-child(2) { animation-delay: 1s; }
+.confession-line:nth-child(3) { animation-delay: 1.5s; }
+.confession-line:nth-child(4) { animation-delay: 2s; }
+.confession-line:nth-child(5) { animation-delay: 2.5s; }
+.confession-line:nth-child(6) { animation-delay: 3s; }
+.confession-line:nth-child(7) { animation-delay: 3.5s; }
+
+.gift-box {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 40px auto;
+    cursor: pointer;
+    animation: giftFloat 2s ease-in-out infinite;
+}
+
+.gift-emoji {
+    font-size: 120px;
+    line-height: 1;
+    text-align: center;
+    transition: all 0.5s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.gift-box:hover .gift-emoji {
+    transform: scale(1.1) rotate(-5deg);
+    animation: giftWiggle 0.6s ease-in-out infinite;
+}
+
+@keyframes giftWiggle {
+    0%, 100% { transform: scale(1.1) rotate(-5deg) translateY(0px); }
+    50% { transform: scale(1.1) rotate(-5deg) translateY(-5px); }
+}
+
+.gift-message {
+    margin-top: 30px;
+    text-align: center;
+    animation: fadeInUp 1s ease-out;
+}
+
+.gift-message p {
+    font-size: 1.3rem;
+    color: #ff6b6b;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 2px solid #ff6b6b;
+    display: inline-block;
+    animation: messagePulse 2s ease-in-out infinite;
+}
+
+@keyframes messagePulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    50% { 
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+}
+
+
+/* 通用按钮样式 */
+.continue-button {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    border: none;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    margin-top: 20px;
+}
+
+.continue-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+}
+
+/* 动画定义 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes numberPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes chatSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes crack {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+}
+
+@keyframes heartShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+@keyframes heartBreak {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.8); }
+    100% { transform: scale(1); }
+}
+
+@keyframes heartRepair {
+    0% { transform: scale(0.8); }
+    100% { transform: scale(1); }
+}
+
+@keyframes heartHeal {
+    0% { 
+        background: #999;
+        transform: rotate(45deg) scale(0.8);
+    }
+    50% { 
+        background: #ff9999;
+        transform: rotate(45deg) scale(0.9);
+    }
+    100% { 
+        background: #ff6b6b;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+@keyframes medalFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes photoFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(1deg); }
+}
+
+@keyframes pathGlow {
+    0% { box-shadow: 0 0 5px rgba(255, 107, 107, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(255, 107, 107, 0.5); }
+}
+
+@keyframes nodeGlow {
+    0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+}
+
+@keyframes confessionFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes giftFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .number-display {
+        font-size: 5rem;
+    }
+    
+    .days-text {
+        font-size: 2rem;
+    }
+    
+    .medals-container {
+        gap: 20px;
+    }
+    
+    .medal {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .medal-icon {
+        font-size: 2rem;
+    }
+    
+    .photo-album {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    
+    .confession-line {
+        font-size: 1.1rem;
+    }
+}

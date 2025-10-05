@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>献给我最爱的小宝贝 - 恋爱纪念册</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 开场封面 -->
+    <div class="scene cover-scene active" id="cover">
+        <div class="background-image" style="background-image: url('第一幕.jpg')"></div>
+        <div class="content">
+            <h1 class="main-title">献给我最爱的小宝贝</h1>
+            <p class="subtitle">一份关于我们的小回忆</p>
+            <button class="start-button" onclick="startStory()">翻开我们的故事</button>
+        </div>
+    </div>
+
+    <!-- 第一幕：时间的起点 -->
+    <div class="scene" id="scene1">
+        <div class="background-image" style="background-image: url('第一幕.jpg')"></div>
+        <div class="content">
+            <h2 class="scene-title">今天是我们认识的第</h2>
+            <div class="number-display" id="numberDisplay">0</div>
+            <div class="days-text">天</div>
+            <div class="loading-hint" id="loadingHint">
+                <p>正在计算我们的美好时光...</p>
+            </div>
+            <div class="continue-hint" id="continueHint1" style="display: none;">
+                <p>点击继续...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第二幕：磨合的痕迹 -->
+    <div class="scene" id="scene2">
+        <div class="background-image" style="background-image: url('第二幕.jpg')"></div>
+        <div class="content">
+            <h2 class="scene-title">在这61天里，我们也有过争吵…</h2>
+            <div class="chat-container">
+                <div class="chat-bubble left">
+                    <div class="message">你根本就不理解我！</div>
+                </div>
+                <div class="chat-bubble right">
+                    <div class="message">我怎么不理解你了？</div>
+                </div>
+                <div class="chat-bubble left">
+                    <div class="message">******</div>
+                </div>
+                <div class="chat-bubble right">
+                    <div class="message">算了，不说了...</div>
+                </div>
+                <div class="chat-bubble left">
+                    <div class="message">随便你吧</div>
+                </div>
+                <div class="chat-bubble right">
+                    <div class="message">.........</div>
+                </div>
+            </div>
+            <div class="broken-heart" id="brokenHeart" onclick="repairHeart()">
+                <svg width="100" height="100" viewBox="0 0 100 100" class="heart-svg">
+                    <path d="M50,80 C50,80 10,55 10,32 C10,12 22,2 35,2 C45,2 50,18 50,18 C50,18 55,2 65,2 C78,2 90,12 90,32 C90,55 50,80 50,80 Z" 
+                          fill="#999" 
+                          stroke="#999" 
+                          stroke-width="2" 
+                          class="heart-path"/>
+                </svg>
+                <div class="heart-click-hint">点击修复</div>
+            </div>
+            <div class="repair-text" id="repairText" style="display: none;">
+                <p>但每一次，都让我们更懂彼此</p>
+                <button class="continue-button" onclick="nextScene(3)">继续</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第三幕：共同的"勋章" -->
+    <div class="scene" id="scene3">
+        <div class="background-image" style="background-image: url('第三幕.jpg')"></div>
+        <div class="content">
+            <h2 class="scene-title">我们也曾一起经历过风雨…</h2>
+            <div class="medals-container">
+                <div class="medal" onclick="showMedalStory('bandaid')">
+                    <div class="medal-icon">🩹</div>
+                    <div class="medal-tooltip" id="bandaid-tooltip">
+                        还记得那次你为我笨手笨脚地贴创可贴吗？虽然很疼，但心里是甜的。
+                    </div>
+                </div>
+                <div class="medal" onclick="showMedalStory('umbrella')">
+                    <div class="medal-icon">☂️</div>
+                    <div class="medal-tooltip" id="umbrella-tooltip">
+                        那天下雨，你坚持要送我回家，自己却淋湿了。
+                    </div>
+                </div>
+                <div class="medal" onclick="showMedalStory('medicine')">
+                    <div class="medal-icon">💊</div>
+                    <div class="medal-tooltip" id="medicine-tooltip">
+                        我生病时，你比我还着急，一直陪在我身边。
+                    </div>
+                </div>
+            </div>
+            <div class="continue-hint" id="continueHint3" style="display: none;">
+                <button class="continue-button" onclick="nextScene(4)">继续</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第四幕：高光时刻 -->
+    <div class="scene" id="scene4">
+        <div class="content">
+            <h2 class="scene-title">但更多的，是这些闪闪发光的瞬间 ✨</h2>
+            <div class="photo-gallery">
+                <button class="gallery-nav gallery-prev" onclick="prevPhoto()">‹</button>
+                <div class="photo-container">
+                    <div class="current-photo" id="currentPhoto">
+                        <img src="第四幕_1.jpg" alt="美好瞬间" id="photoImage">
+                    </div>
+                </div>
+                <button class="gallery-nav gallery-next" onclick="nextPhoto()">›</button>
+            </div>
+            <div class="photo-indicators" id="photoIndicators">
+                <span class="indicator active" onclick="goToPhoto(0)"></span>
+                <span class="indicator" onclick="goToPhoto(1)"></span>
+                <span class="indicator" onclick="goToPhoto(2)"></span>
+                <span class="indicator" onclick="goToPhoto(3)"></span>
+            </div>
+            <div class="gallery-continue" id="galleryContinue" style="display: none;">
+                <button class="continue-button" onclick="nextScene(5)">继续</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 第五幕：爱屋及乌 -->
+    <div class="scene" id="scene5">
+        <div class="background-image" style="background-image: url('第五幕_2.jpg')"></div>
+        <div class="content">
+            <h2 class="scene-title">因为爱你，所以也爱上了你爱的光芒</h2>
+            <div class="love-path">
+                <div class="path-line"></div>
+                <div class="path-node" id="node1" onclick="showPathStory('initial')">
+                    <span class="node-label">最初</span>
+                </div>
+                <div class="path-node" id="node2" onclick="showPathStory('later')">
+                    <span class="node-label">后来</span>
+                </div>
+                <div class="path-node" id="node3" onclick="showPathStory('now')">
+                    <span class="node-label">现在</span>
+                </div>
+                <div class="character me" id="meCharacter">我</div>
+                <div class="character her" id="herCharacter">小鞠</div>
+            </div>
+            <div class="path-story" id="pathStory">
+                <p id="storyText"></p>
+            </div>
+            <div class="final-message" id="finalMessage" style="display: none;">
+                <p>你看，爱会让一个人，心甘情愿地走进另一个世界。</p>
+                <button class="continue-button" onclick="nextScene(6)">继续</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 最终幕：现在与未来 -->
+    <div class="scene" id="scene6">
+        <div class="background-image" style="background-image: url('第六幕.png')"></div>
+        <div class="content">
+            <h2 class="scene-title">所以，在今天这个特别的日子，我想对你说…</h2>
+            <div class="confession-text" id="confessionText">
+                <p class="confession-line">遇见你，是我生命中最美好的意外</p>
+                <p class="confession-line">你的笑容，是我每天最期待的阳光</p>
+                <p class="confession-line">你的温柔，是我心中最柔软的港湾</p>
+                <p class="confession-line">61天，虽然不长，但每一天都让我更加确定</p>
+                <p class="confession-line">你就是我想要共度余生的人</p>
+                <p class="confession-line">愿我们的爱情，如初见时那般美好</p>
+                <p class="confession-line">愿我们的未来，充满更多的61天</p>
+            </div>
+            <div class="gift-box" id="giftBox" onclick="openGift()">
+                <div class="gift-emoji">🎁</div>
+            </div>
+            <div class="gift-message" id="giftMessage" style="display: none;">
+                <p>🎁 你真正的生日礼物藏在客厅书架第二层！</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 背景音乐 -->
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="background-music.mp3" type="audio/mpeg">
+        <source src="background-music.wav" type="audio/wav">
+        <source src="background-music.ogg" type="audio/ogg">
+        您的浏览器不支持音频播放。
+    </audio>
+    
+    <!-- 音乐控制按钮 -->
+    <div class="music-controls" id="musicControls">
+        <button class="music-btn" id="musicToggle" onclick="toggleMusic()" title="播放/暂停音乐">
+            <span class="music-icon">🎵</span>
+        </button>
+        <button class="music-btn" id="musicVolume" onclick="toggleMute()" title="静音/取消静音">
+            <span class="volume-icon">🔊</span>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
