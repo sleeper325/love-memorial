@@ -1,7 +1,5 @@
 // 全局变量
 let currentScene = 0;
-let medalClickCount = 0;
-let clickedMedals = new Set();
 let pathClickCount = 0;
 let isHeartRepaired = false;
 
@@ -48,18 +46,14 @@ function nextScene(sceneNumber) {
                 break;
             case 3:
                 console.log('执行第三幕动画');
-                resetMedalClicks();
+                startPhotoAnimation();
                 break;
             case 4:
                 console.log('执行第四幕动画');
-                startPhotoAnimation();
+                resetPathClicks();
                 break;
             case 5:
                 console.log('执行第五幕动画');
-                resetPathClicks();
-                break;
-            case 6:
-                console.log('执行第六幕动画');
                 startConfessionAnimation();
                 break;
         }
@@ -169,83 +163,8 @@ function repairHeart() {
     }, 2000);
 }
 
-// 第三幕：勋章故事
-function showMedalStory(medalType) {
-    // 隐藏所有其他勋章的文字
-    const allTooltips = document.querySelectorAll('.medal-tooltip');
-    allTooltips.forEach(tooltip => {
-        tooltip.classList.remove('show');
-    });
-    
-    // 移除所有勋章的激活状态
-    const allMedals = document.querySelectorAll('.medal');
-    allMedals.forEach(medal => {
-        medal.classList.remove('active');
-        medal.classList.remove('bandaid', 'umbrella', 'medicine');
-    });
-    
-    // 激活当前勋章
-    const currentMedal = document.querySelector(`[onclick="showMedalStory('${medalType}')"]`);
-    const tooltip = document.getElementById(`${medalType}-tooltip`);
-    
-    if (currentMedal && tooltip) {
-        currentMedal.classList.add('active');
-        currentMedal.classList.add(medalType);
-        tooltip.classList.add('show');
-        
-        // 记录已点击的勋章类型（去重）
-        clickedMedals.add(medalType);
-        console.log(`点击了${medalType}勋章，当前已点击的勋章:`, Array.from(clickedMedals));
 
-        // 兼容旧计数逻辑（保留，避免回归）
-        medalClickCount++;
-
-        // 当三种都点击过时，立刻显示继续按钮
-        if (clickedMedals.size >= 3) {
-            const continueHint = document.getElementById('continueHint3');
-            console.log('显示第三幕继续按钮，当前点击的勋章数量:', clickedMedals.size);
-            console.log('继续按钮元素:', continueHint);
-            if (continueHint) {
-                continueHint.style.display = 'block';
-                
-                // 使用requestAnimationFrame确保DOM更新后再添加动画类
-                requestAnimationFrame(() => {
-                    continueHint.classList.add('show');
-                });
-                
-                console.log('第三幕继续按钮已显示');
-            } else {
-                console.error('找不到第三幕继续按钮元素');
-            }
-        }
-    }
-}
-
-function resetMedalClicks() {
-    medalClickCount = 0;
-    clickedMedals.clear();
-    
-    // 隐藏所有文字提示
-    const tooltips = document.querySelectorAll('.medal-tooltip');
-    tooltips.forEach(tooltip => {
-        tooltip.classList.remove('show');
-    });
-    
-    // 移除所有勋章的激活状态
-    const allMedals = document.querySelectorAll('.medal');
-    allMedals.forEach(medal => {
-        medal.classList.remove('active');
-        medal.classList.remove('bandaid', 'umbrella', 'medicine');
-    });
-    
-    const continueHint = document.getElementById('continueHint3');
-    if (continueHint) {
-        continueHint.style.display = 'none';
-        continueHint.classList.remove('show');
-    }
-}
-
-// 第四幕：照片相册
+// 第三幕：照片相册
 let currentPhotoIndex = 0;
 const photos = [
     { src: '第四幕_1.jpg' },
@@ -313,7 +232,7 @@ function goToPhoto(index) {
     }
 }
 
-// 第五幕：路径故事
+// 第四幕：路径故事
 function showPathStory(stage) {
     const storyText = document.getElementById('storyText');
     const finalMessage = document.getElementById('finalMessage');
@@ -364,7 +283,7 @@ function resetPathClicks() {
     finalMessage.style.display = 'none';
 }
 
-// 第六幕：告白动画
+// 第五幕：告白动画
 function startConfessionAnimation() {
     const confessionLines = document.querySelectorAll('.confession-line');
     confessionLines.forEach((line, index) => {
@@ -452,8 +371,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 添加键盘导航支持
 document.addEventListener('keydown', function(event) {
-    if (currentScene === 4) {
-        // 第四幕：相册导航
+    if (currentScene === 3) {
+        // 第三幕：相册导航
         if (event.key === 'ArrowRight') {
             event.preventDefault();
             nextPhoto();
@@ -465,7 +384,7 @@ document.addEventListener('keydown', function(event) {
         // 其他场景：场景切换
         if (event.key === 'ArrowRight' || event.key === ' ') {
             event.preventDefault();
-            if (currentScene < 6) {
+            if (currentScene < 5) {
                 nextScene(currentScene + 1);
             }
         } else if (event.key === 'ArrowLeft') {
@@ -497,7 +416,7 @@ function handleSwipe() {
     if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0) {
             // 向左滑动，下一幕
-            if (currentScene < 6) {
+            if (currentScene < 5) {
                 nextScene(currentScene + 1);
             }
         } else {
