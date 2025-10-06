@@ -479,8 +479,8 @@ body {
     transition: all 0.3s ease;
 }
 
-/* 第四幕样式 */
-#scene4 {
+/* 第三幕样式 */
+#scene3 {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
@@ -686,8 +686,8 @@ body {
     animation: fadeInUp 1s ease-out;
 }
 
-/* 第六幕样式 */
-#scene6 .background-image {
+/* 第五幕样式 */
+#scene5 .background-image {
     background-image: url('第六幕.png');
     background-size: contain;
     background-position: center;
